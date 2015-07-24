@@ -1,5 +1,5 @@
 # tping
-tping, or TrackPing, is a utility that will track ping times and export them into a CSV file for further analysis. Typical usage is for monitoring a network device or internet connection for latency or drops. Currently tping will ping the specified hostname or ip once every 2 seconds, 43200 times, which comes out to around 24 hours. This is so you can leave tping running for a day, and then analyze the results. The command can be stopped at any time by pressing ctrl + c.
+tping, or TrackPing, is a utility that will track ping times and export them into a CSV file for further analysis. Typical usage is for monitoring a network device or internet connection for latency or drops. Currently tping will ping the specified hostname or ip once every 2 seconds, 43200 times, which comes out to around 24 hours. This is so you can leave tping running for a day, and then analyze the results. The command can be stopped at any time by pressing ctrl + c. tping depends on .NET Framework 2.0 or greater.
 
 Usage:
 tping.exe [hostname|ip]
