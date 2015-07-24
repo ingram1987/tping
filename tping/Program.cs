@@ -12,7 +12,6 @@ namespace tping
         {
             if (args.Length > 0)
             {
-                string[] pingResults = new string[] { };
                 Console.WriteLine("Host, Response Time, Status, Time ");
                 for (int i = 0; i < 43200; i++)
                 {
