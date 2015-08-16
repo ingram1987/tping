@@ -26,17 +26,18 @@ namespace tping
                 pingCount = 43200;
             }
             Console.WriteLine("Host, Response Time, Status, Time ");
+            String fileName = String.Format(@"tping-{0}-{1}-{2}-{3}.csv", DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
             for (int i = 0; i < pingCount; i++)
             {
                 Ping ping = new Ping();
                 PingReply pingReply = ping.Send(hostName);
-                StreamWriter processedData = new StreamWriter(@".\tping-results.csv", true);
+                StreamWriter processedData = new StreamWriter(@fileName, true);
                 processedData.WriteLine("{0}, " + "{1}, " + "{2}, " + DateTime.Now.TimeOfDay, hostName, pingReply.RoundtripTime, pingReply.Status);
                 processedData.Close();
                 Console.WriteLine("{0}, " + "{1}, " + "{2}, " + DateTime.Now.TimeOfDay, hostName, pingReply.RoundtripTime, pingReply.Status);
                 Thread.Sleep(2000);
             }
-            Console.ReadLine();
+            Console.WriteLine("\n" + "tping complete - {0} pings logged in {1}", pingCount, fileName);
         }
     }
     class Program
