@@ -30,12 +30,21 @@ namespace tping
             for (int i = 0; i < pingCount; i++)
             {
                 Ping ping = new Ping();
-                PingReply pingReply = ping.Send(hostName);
-                StreamWriter processedData = new StreamWriter(@fileName, true);
-                processedData.WriteLine("{0}, " + "{1}, " + "{2}, " + DateTime.Now.TimeOfDay, hostName, pingReply.RoundtripTime, pingReply.Status);
-                processedData.Close();
-                Console.WriteLine("{0}, " + "{1}, " + "{2}, " + DateTime.Now.TimeOfDay, hostName, pingReply.RoundtripTime, pingReply.Status);
-                Thread.Sleep(2000);
+                try
+                {
+                    PingReply pingReply = ping.Send(hostName);
+                    StreamWriter processedData = new StreamWriter(@fileName, true);
+                    processedData.WriteLine("{0}, " + "{1}, " + "{2}, " + DateTime.Now.TimeOfDay, hostName, pingReply.RoundtripTime, pingReply.Status);
+                    processedData.Close();
+                    Console.WriteLine("{0}, " + "{1}, " + "{2}, " + DateTime.Now.TimeOfDay, hostName, pingReply.RoundtripTime, pingReply.Status);
+                    Thread.Sleep(2000);
+                }
+                catch (System.Net.NetworkInformation.PingException)
+                {
+                    Console.WriteLine("Please enter a valid hostname or IP");
+                    Environment.Exit(0);
+                }
+
             }
             Console.WriteLine("\n" + "tping complete - {0} pings logged in {1}", pingCount, fileName);
         }
@@ -48,8 +57,18 @@ namespace tping
             CommandLine.Parser.Default.ParseArguments(args, options);
             if (args.Length > 0)
             {
-                helper ping1 = new helper();
-                ping1.pingHost(options.ip, options.count);
+                var test = Uri.CheckHostName(options.ip);
+                if (Uri.CheckHostName(options.ip) != UriHostNameType.Unknown)
+                {
+                    helper ping1 = new helper();
+                    ping1.pingHost(options.ip, options.count);
+
+                }
+                else
+                {
+                    Console.WriteLine("Please enter a valid hostname or IP");
+                }
+                
             }
             else
             {
