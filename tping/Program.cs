@@ -30,21 +30,25 @@ namespace tping
             for (int i = 0; i < pingCount; i++)
             {
                 Ping ping = new Ping();
+                StreamWriter processedData = new StreamWriter(@fileName, true);
                 try
                 {
                     PingReply pingReply = ping.Send(hostName);
-                    StreamWriter processedData = new StreamWriter(@fileName, true);
+                    
                     processedData.WriteLine("{0}, " + "{1}, " + "{2}, " + DateTime.Now.TimeOfDay, hostName, pingReply.RoundtripTime, pingReply.Status);
                     processedData.Close();
                     Console.WriteLine("{0}, " + "{1}, " + "{2}, " + DateTime.Now.TimeOfDay, hostName, pingReply.RoundtripTime, pingReply.Status);
-                    Thread.Sleep(2000);
+                    
                 }
                 catch (System.Net.NetworkInformation.PingException)
                 {
-                    Console.WriteLine("Please enter a valid hostname or IP");
-                    Environment.Exit(0);
+                    processedData.WriteLine("{0}, " + "{1}, " + "{2}, " + DateTime.Now.TimeOfDay, hostName, 0, "Network Error");
+                    Console.WriteLine("{0}, " + "{1}, " + "{2}, " + DateTime.Now.TimeOfDay, hostName, 0, "Network Error");
+                    processedData.Close();
+                    //Console.WriteLine(Ex);
+                    //Environment.Exit(0);
                 }
-
+                Thread.Sleep(2000);
             }
             Console.WriteLine("\n" + "tping complete - {0} pings logged in {1}", pingCount, fileName);
         }
@@ -60,6 +64,16 @@ namespace tping
                 var test = Uri.CheckHostName(options.ip);
                 if (Uri.CheckHostName(options.ip) != UriHostNameType.Unknown)
                 {
+                    Ping ping = new Ping();
+                    try
+                    {
+                        PingReply pingReply = ping.Send(options.ip);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Network Error: Please check network or hostname|ip");
+                        Environment.Exit(0);
+                    }
                     helper ping1 = new helper();
                     ping1.pingHost(options.ip, options.count);
 
