@@ -1,0 +1,16 @@
+C:\Users\Owner\source\repos\TrackPing\TrackPing\obj\Debug\TrackPing.csproj.CoreCompileInputs.cache
+C:\Users\Owner\source\repos\TrackPing\TrackPing\bin\Debug\TrackPing.exe.config
+C:\Users\Owner\source\repos\TrackPing\TrackPing\bin\Debug\TrackPing.exe
+C:\Users\Owner\source\repos\TrackPing\TrackPing\bin\Debug\TrackPing.pdb
+C:\Users\Owner\source\repos\TrackPing\TrackPing\bin\Debug\EntityFramework.dll
+C:\Users\Owner\source\repos\TrackPing\TrackPing\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Owner\source\repos\TrackPing\TrackPing\bin\Debug\System.Data.SQLite.dll
+C:\Users\Owner\source\repos\TrackPing\TrackPing\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Users\Owner\source\repos\TrackPing\TrackPing\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\Owner\source\repos\TrackPing\TrackPing\bin\Debug\EntityFramework.xml
+C:\Users\Owner\source\repos\TrackPing\TrackPing\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Owner\source\repos\TrackPing\TrackPing\bin\Debug\System.Data.SQLite.xml
+C:\Users\Owner\source\repos\TrackPing\TrackPing\bin\Debug\System.Data.SQLite.dll.config
+C:\Users\Owner\source\repos\TrackPing\TrackPing\obj\Debug\TrackPing.exe
+C:\Users\Owner\source\repos\TrackPing\TrackPing\obj\Debug\TrackPing.pdb
+C:\Users\Owner\source\repos\TrackPing\TrackPing\obj\Debug\TrackPing.csprojResolveAssemblyReference.cache
