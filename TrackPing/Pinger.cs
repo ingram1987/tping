@@ -10,9 +10,12 @@ namespace TrackPing
 {
     class Pinger
     {
-        public void pinger(List<string> ipArgs)
+        public void pinger(List<string> ipArgs, int pingCount=0)
         {
-            int pingCount = 99;
+            if (pingCount == 0)
+            {
+                pingCount = 2000;
+            }
             SqliteConnect sqliteConnect = new SqliteConnect();
             string myCommand = "create table IF NOT EXISTS tping_today (id INTEGER PRIMARY KEY AUTOINCREMENT, hostname TEXT NOT NULL, roundtriptime INTEGER NOT NULL, tod TEXT NOT NULL, status TEXT NOT NULL)";
             sqliteConnect.OpenConnection();
@@ -40,6 +43,10 @@ namespace TrackPing
             sqliteConnect.CloseConnection();
         }
 
+        void ExecutePing(List<string> ipArgs)
+        {
+            
+        }
         public string GetApplicationExeDirName()
         {
             return Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);

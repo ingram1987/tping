@@ -31,6 +31,9 @@ namespace TrackPing
         }
         private List<string> mIp = new List<string>();
 
+        [CommandLineOption(Name = "c", Description = "Set the ping count (Default: 2000)")]
+        public int PingCount { get; set; }
+
         [CommandLineOption(Name = "h", Description = "Shows this help text")]
         public bool Help { get; set; }
     }
