@@ -35,7 +35,7 @@ namespace TrackPing
                     Console.WriteLine("{0}, " + "{1}, " + "{2}, " + dateTime.TimeOfDay, ipAddress, pingReply.RoundtripTime, pingReply.Status);
                     Thread.Sleep(10);
                 }
-                
+                Thread.Sleep(2000);
             }
             sqliteConnect.CloseConnection();
         }
