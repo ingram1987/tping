@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Plossum.CommandLine;
 
 namespace TrackPing
 {
@@ -10,15 +7,40 @@ namespace TrackPing
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Argument length: " + args.Length);
-            Console.WriteLine("Supplied Arguments are:");
-            foreach (Object obj in args)
+            Options options = new Options();
+            CommandLineParser parser = new CommandLineParser(options);
+            parser.Parse();
+
+            if (options.Help)
             {
-                Console.WriteLine(obj);
+                Console.WriteLine(parser.UsageInfo.ToString(78, false));
+
             }
-            Pinger pinger = new Pinger();
-            pinger.pinger();
-            Console.WriteLine("DONE");
+            else if (parser.HasErrors)
+            {
+                Console.WriteLine(parser.UsageInfo.ToString(78, true));
+
+            }
+            else if (options.Ip != null)
+            {
+                bool validIp = false;
+                Parse parse = new Parse();
+                foreach (string ipArg in options.Ip)
+                {
+                    if (parse.ValidateIPv4(ipArg) == true)
+                    {
+                        Console.WriteLine("SUCCESS ipArg: " + ipArg);
+                        validIp = true;
+                    }
+                }
+
+                if (validIp)
+                {
+                    Pinger pinger2 = new Pinger();
+                    pinger2.pinger(options.Ip);
+                }
+            }
+            Console.WriteLine("DONE"); 
         }
     }
 }
