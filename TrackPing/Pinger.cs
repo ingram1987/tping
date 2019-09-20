@@ -12,6 +12,7 @@ namespace TrackPing
     {
         public void pinger(List<string> ipArgs, int pingCount=0)
         {
+            DateTime dateTime = GetCurrentDateTime();
             if (pingCount == 0)
             {
                 pingCount = 2000;
@@ -25,18 +26,33 @@ namespace TrackPing
             {
                 foreach (string ipAddress in ipArgs)
                 {
-                    Ping pingHost = new Ping();
-                    PingReply pingReply = pingHost.Send("4.2.2.1");
-                    DateTime dateTime = DateTime.Now;
-                    string sqlInsert = "insert into tping_today (hostname, roundtriptime, tod, status) values (@hostnameValue, @roundtriptimeValue, @todValue, @statusValue)";
-                    SQLiteCommand command2 = new SQLiteCommand(sqlInsert, sqliteConnect.myConnection);
-                    command2.Parameters.AddWithValue("@hostnameValue", ipAddress);
-                    command2.Parameters.AddWithValue("@roundtriptimeValue", pingReply.RoundtripTime.ToString());
-                    command2.Parameters.AddWithValue("todValue", dateTime.TimeOfDay.ToString());
-                    command2.Parameters.AddWithValue("statusValue", pingReply.Status.ToString());
-                    command2.ExecuteNonQuery();
-                    Console.WriteLine("{0}, " + "{1}, " + "{2}, " + dateTime.TimeOfDay, ipAddress, pingReply.RoundtripTime, pingReply.Status);
-                    Thread.Sleep(10);
+                    dateTime = GetCurrentDateTime();
+                    try
+                    {
+                        Ping pingHost = new Ping();
+                        PingReply pingReply = pingHost.Send(ipAddress);
+                       // DateTime dateTime = DateTime.Now;
+                        string sqlInsert = "insert into tping_today (hostname, roundtriptime, tod, status) values (@hostnameValue, @roundtriptimeValue, @todValue, @statusValue)";
+                        SQLiteCommand command2 = new SQLiteCommand(sqlInsert, sqliteConnect.myConnection);
+                        command2.Parameters.AddWithValue("@hostnameValue", ipAddress);
+                        command2.Parameters.AddWithValue("@roundtriptimeValue", pingReply.RoundtripTime.ToString());
+                        command2.Parameters.AddWithValue("todValue", dateTime.TimeOfDay.ToString());
+                        command2.Parameters.AddWithValue("statusValue", pingReply.Status.ToString());
+                        command2.ExecuteNonQuery();
+                        Console.WriteLine("{0}, " + "{1}, " + "{2}, " + dateTime.TimeOfDay, ipAddress, pingReply.RoundtripTime, pingReply.Status);
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Console.WriteLine("Error Pinging " + ipAddress + ": " + ex.Message);
+                        string sqlInsert = "insert into tping_today (hostname, roundtriptime, tod, status) values (@hostnameValue, 0, @todValue, @statusValue)";
+                        SQLiteCommand command2 = new SQLiteCommand(sqlInsert, sqliteConnect.myConnection);
+                        command2.Parameters.AddWithValue("@hostnameValue", ipAddress);
+                        //command2.Parameters.AddWithValue("@roundtriptimeValue", pingReply.RoundtripTime.ToString());
+                        command2.Parameters.AddWithValue("todValue", dateTime.TimeOfDay.ToString());
+                        command2.Parameters.AddWithValue("statusValue", "Failed: " + ex.Message);
+                        command2.ExecuteNonQuery();
+                    }
                 }
                 Thread.Sleep(2000);
             }
@@ -50,6 +66,20 @@ namespace TrackPing
         public string GetApplicationExeDirName()
         {
             return Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+        }
+
+        DateTime GetCurrentDateTime()
+        {
+            try
+            {
+                return DateTime.Now;
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine("Error Getting Date: " + ex.Message);
+                return DateTime.Now;
+            }
         }
     }
 }
