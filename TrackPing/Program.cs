@@ -29,7 +29,6 @@ namespace TrackPing
                 {
                     if (parse.ValidateIPv4(ipArg) == true)
                     {
-                        Console.WriteLine("SUCCESS ipArg: " + ipArg);
                         validIp = true;
                     }
                 }
@@ -40,7 +39,6 @@ namespace TrackPing
                     pinger2.pinger(options.Ip, options.PingCount, options.PingSeconds);
                 }
             }
-            Console.WriteLine("DONE"); 
         }
     }
 }

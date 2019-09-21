@@ -35,7 +35,23 @@ namespace TrackPing
         public int PingCount { get; set; }
 
         [CommandLineOption(Name = "s", Description = "Seconds between Pings (Default: 5)")]
-        public int PingSeconds { get; set; }
+        public int PingSeconds
+        {
+            get { return mPingSeconds; }
+            set
+            {
+                if ( value <= 0)
+                {
+                    mPingSeconds = 0;
+                }
+                else
+                {
+                    mPingSeconds = value;
+                }
+
+            }
+        }
+        private int mPingSeconds;
 
         [CommandLineOption(Name = "h", Description = "Shows this help text")]
         public bool Help { get; set; }

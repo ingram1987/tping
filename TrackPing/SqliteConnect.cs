@@ -7,12 +7,14 @@ namespace TrackPing
 {
     class SqliteConnect
     {
-        public string DbName = "trackping.sqlite";
+        public DateTime TimeNow = DateTime.Now;
+        public string DbName { get; set; }
         public SQLiteConnection myConnection;
 
 
         public SqliteConnect()
         {
+            DbName = TimeNow.Year + "-" + TimeNow.Month + "-" + TimeNow.Day + "_" + TimeNow.Hour + "-" + TimeNow.Minute + "-" + TimeNow.Second + ".sqlite";
             myConnection = new SQLiteConnection("Data Source =" + DbName + ";Version=3;");
             if (!File.Exists(DbName))
             {
