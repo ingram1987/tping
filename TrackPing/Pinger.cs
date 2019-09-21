@@ -10,13 +10,19 @@ namespace TrackPing
 {
     class Pinger
     {
-        public void pinger(List<string> ipArgs, int pingCount=0)
+        public void pinger(List<string> ipArgs, int pingCount=0, int pingSeconds=0)
         {
             DateTime dateTime = GetCurrentDateTime();
             if (pingCount == 0)
             {
                 pingCount = 2000;
             }
+
+            if (pingSeconds == 0)
+            {
+                pingSeconds = 5;
+            }
+
             SqliteConnect sqliteConnect = new SqliteConnect();
             string myCommand = "create table IF NOT EXISTS tping_today (id INTEGER PRIMARY KEY AUTOINCREMENT, hostname TEXT NOT NULL, roundtriptime INTEGER NOT NULL, tod TEXT NOT NULL, status TEXT NOT NULL)";
             sqliteConnect.OpenConnection();
@@ -31,7 +37,6 @@ namespace TrackPing
                     {
                         Ping pingHost = new Ping();
                         PingReply pingReply = pingHost.Send(ipAddress);
-                       // DateTime dateTime = DateTime.Now;
                         string sqlInsert = "insert into tping_today (hostname, roundtriptime, tod, status) values (@hostnameValue, @roundtriptimeValue, @todValue, @statusValue)";
                         SQLiteCommand command2 = new SQLiteCommand(sqlInsert, sqliteConnect.myConnection);
                         command2.Parameters.AddWithValue("@hostnameValue", ipAddress);
@@ -48,13 +53,12 @@ namespace TrackPing
                         string sqlInsert = "insert into tping_today (hostname, roundtriptime, tod, status) values (@hostnameValue, 0, @todValue, @statusValue)";
                         SQLiteCommand command2 = new SQLiteCommand(sqlInsert, sqliteConnect.myConnection);
                         command2.Parameters.AddWithValue("@hostnameValue", ipAddress);
-                        //command2.Parameters.AddWithValue("@roundtriptimeValue", pingReply.RoundtripTime.ToString());
                         command2.Parameters.AddWithValue("todValue", dateTime.TimeOfDay.ToString());
                         command2.Parameters.AddWithValue("statusValue", "Failed: " + ex.Message);
                         command2.ExecuteNonQuery();
                     }
                 }
-                Thread.Sleep(2000);
+                Thread.Sleep(pingSeconds * 1000);
             }
             sqliteConnect.CloseConnection();
         }

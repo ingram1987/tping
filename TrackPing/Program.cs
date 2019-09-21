@@ -37,7 +37,7 @@ namespace TrackPing
                 if (validIp)
                 {
                     Pinger pinger2 = new Pinger();
-                    pinger2.pinger(options.Ip, options.PingCount);
+                    pinger2.pinger(options.Ip, options.PingCount, options.PingSeconds);
                 }
             }
             Console.WriteLine("DONE"); 
