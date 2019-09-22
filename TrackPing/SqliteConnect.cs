@@ -12,9 +12,10 @@ namespace TrackPing
         public SQLiteConnection myConnection;
 
 
-        public SqliteConnect()
+        public SqliteConnect(string dbName)
         {
-            DbName = TimeNow.Year + "-" + TimeNow.Month + "-" + TimeNow.Day + "_" + TimeNow.Hour + "-" + TimeNow.Minute + "-" + TimeNow.Second + ".sqlite";
+            //DbName = TimeNow.Year + "-" + TimeNow.Month + "-" + TimeNow.Day + "_" + TimeNow.Hour + "-" + TimeNow.Minute + "-" + TimeNow.Second + ".sqlite";
+            DbName = dbName;
             myConnection = new SQLiteConnection("Data Source =" + DbName + ";Version=3;");
             if (!File.Exists(DbName))
             {

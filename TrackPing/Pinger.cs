@@ -10,9 +10,15 @@ namespace TrackPing
 {
     class Pinger
     {
-        public void pinger(List<string> ipArgs, int pingCount=0, int pingSeconds=0)
+        public void pinger(List<string> ipArgs, int pingCount=0, int pingSeconds=0, string dbName=null)
         {
+
             DateTime dateTime = DateTime.Now;
+            if (dbName == null)
+            {
+                dbName = dateTime.Year + "-" + dateTime.Month + "-" + dateTime.Day + "_" + dateTime.Hour + "-" + dateTime.Minute + "-" + dateTime.Second + ".sqlite";
+            }
+            //string DbName = dateTime.Year + "-" + dateTime.Month + "-" + dateTime.Day + "_" + dateTime.Hour + "-" + dateTime.Minute + "-" + dateTime.Second + ".sqlite";
             if (pingCount == 0)
             {
                 pingCount = 2000;
@@ -23,7 +29,7 @@ namespace TrackPing
                 pingSeconds = 5;
             }
 
-            SqliteConnect sqliteConnect = new SqliteConnect();
+            SqliteConnect sqliteConnect = new SqliteConnect(dbName);
             string myCommand = "create table IF NOT EXISTS TrackPing (id INTEGER PRIMARY KEY AUTOINCREMENT, hostname TEXT NOT NULL, roundtriptime INTEGER NOT NULL, tod TEXT NOT NULL, status TEXT NOT NULL)";
             sqliteConnect.OpenConnection();
             SQLiteCommand command = new SQLiteCommand(myCommand, sqliteConnect.myConnection);

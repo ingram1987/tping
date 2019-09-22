@@ -9,7 +9,7 @@ namespace TrackPing
     [CommandLineOptionGroup("options", Name = "Options")]
     class Options
     {
-        [CommandLineOption(Name = "i", Description = "Specify the IP address", MinOccurs = 1)]
+        [CommandLineOption(Name = "i", Description = "Specify the IP address (accepts multiple -i options for pinging multiple IP addresses)", MinOccurs = 1)]
         public List<string> Ip {
             get { return mIp; }
             set
@@ -52,6 +52,9 @@ namespace TrackPing
             }
         }
         private int mPingSeconds;
+
+        [CommandLineOption(Name = "d", Description = "Set the Database name (Default: \"date.sqlite\")")]
+        public string DatabaseName { get; set; }
 
         [CommandLineOption(Name = "h", Description = "Shows this help text")]
         public bool Help { get; set; }
