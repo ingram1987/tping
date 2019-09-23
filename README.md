@@ -1,3 +1,4 @@
+**tping, or TrackPing, is a utility that tracks & monitors ping times for analyzing latency or network issues**  
 <pre>Track Ping
 Options:                                                                      
    -c         Set the ping count (Default: 2000)                              
